@@ -31,7 +31,7 @@ class StepsRecordsList extends React.Component {
   onSubmit = (e) => {
     e.preventDefault();
 
-    const listItems = numbers.map((number) => (
+    const listItems = items.map((item) => (
       <tr>
         <td>{listitems}</td>
         <td>{listitems}</td>
@@ -66,9 +66,9 @@ class Steps extends React.Component {
         <StepsFormInput />
         <table
           border="1"
-          cellspacing="0"
-          cellpadding="2"
-          class="Steps-RecordsList"
+          cellSpacing="0"
+          cellPadding="2"
+          className="Steps-RecordsList"
         >
           <thead>
             <tr>
