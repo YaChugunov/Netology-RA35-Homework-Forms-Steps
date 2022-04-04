@@ -1,21 +1,51 @@
 import React, { useState } from 'react';
 import './style.css';
 
-function StepsFormInput(props) {
-  const onSubmit = (e) => {
-    e.preventDefault();
-    console.dir(e);
-  };
+class StepsFormInput extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      date: '',
+      steps: '',
+    };
 
-  return (
-    <div class="Steps-FormInput">
-      <form action="" onSubmit={onSubmit}>
-        <input type="text" name="inputDate" />
-        <input type="text" name="inputSteps" />
-        <button>OK</button>
+    this.handleInputChange = this.handleInputChange.bind(this);
+  }
+
+  handleInputChange(event) {
+    const target = event.target;
+    const value = target.type === 'checkbox' ? target.value : target.value;
+    const name = target.name;
+
+    this.setState({
+      [name]: value,
+    });
+  }
+
+  render() {
+    return (
+      <form>
+        <div className="form">
+          <div className="formDate">
+            <label htmlFor="date">Дата (ДД.ММ.ГГ)</label>
+            <input name="date" type="date" onChange={this.handleInputChange} />
+          </div>
+          <div className="formSteps">
+            <label>Пройдено (км)</label>
+            <input
+              name="steps"
+              type="number"
+              value={this.state.steps}
+              onChange={this.handleInputChange}
+            />
+          </div>
+          <div>
+            <button type="submit">OK</button>
+          </div>
+        </div>
       </form>
-    </div>
-  );
+    );
+  }
 }
 
 class StepsRecordsList extends React.Component {
