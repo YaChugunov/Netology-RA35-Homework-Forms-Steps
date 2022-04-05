@@ -38,20 +38,22 @@ class FormInput extends React.Component {
   handleFormSubmit = (e) => {
     e.preventDefault();
     console.log(this.form.inputDate, this.form.inputSteps);
-    this.setState((prevState) => ({
-      records: [
-        ...prevState.records,
-        [this.form.inputDate, this.form.inputSteps],
-      ],
-    }));
-    console.log(this.row);
+    // this.setState((prevState) => ({
+    //   records: [
+    //     ...prevState.records,
+    //     [this.form.inputDate, this.form.inputSteps],
+    //   ],
+    // }));
+    // console.log(this.row);
   };
 
   handleInputChange = (e) => {
-    // e.preventDefault();
-    const name = target.name;
+    e.preventDefault();
     const target = e.target;
+    const name = target.name;
     const value = target.type === 'checkbox' ? target.checked : target.value;
+
+    console.log(name, value);
 
     this.setState({
       [name]: value,
@@ -77,7 +79,7 @@ class FormInput extends React.Component {
               <input
                 name="inputDate"
                 type="date"
-                value={this.inputDate}
+                value={this.form.inputDate}
                 onChange={this.handleInputChange}
               />
             </div>
@@ -86,7 +88,7 @@ class FormInput extends React.Component {
               <input
                 name="inputSteps"
                 type="number"
-                value={this.inputSteps}
+                value={this.form.inputSteps}
                 onChange={this.handleInputChange}
               />
             </div>
