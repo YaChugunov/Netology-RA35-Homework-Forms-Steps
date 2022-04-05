@@ -3,13 +3,14 @@ import './style.css';
 
 function FormInput() {
   const [form, setForm] = useState({
-    date: '',
-    steps: null,
+    date: new Date(),
+    steps: 0,
   });
 
   const handleFormSubmit = (e) => {
     e.preventDefault(); // При нажатии ничего не происходит
     console.dir(name);
+    return <Item date={form.date} steps={form.steps} />;
   };
 
   const handleInputChange = (e) => {
@@ -24,43 +25,81 @@ function FormInput() {
   };
 
   return (
-    <form action="" onSubmit={handleFormSubmit}>
-      <div className="form">
-        <div className="formDate">
-          <label htmlFor="date">Дата (ДД.ММ.ГГ)</label>
-          <input name="date" type="date" onChange={handleInputChange} />
+    <>
+      <form action="" onSubmit={handleFormSubmit}>
+        <div className="form">
+          <div className="formDate">
+            <label htmlFor="date">Дата (ДД.ММ.ГГ)</label>
+            <input name="date" type="date" onChange={handleInputChange} />
+          </div>
+          <div className="formSteps">
+            <label htmlFor="steps">Пройдено (км)</label>
+            <input
+              name="steps"
+              type="number"
+              value={form.steps}
+              onChange={handleInputChange}
+            />
+          </div>
+          <div>
+            <button type="submit">OK</button>
+          </div>
         </div>
-        <div className="formSteps">
-          <label htmlFor="steps">Пройдено (км)</label>
-          <input
-            name="steps"
-            type="number"
-            value={form.steps}
-            onChange={handleInputChange}
-          />
-        </div>
-        <div>
-          <button type="submit">OK</button>
-        </div>
-      </div>
-    </form>
+      </form>
+      <table
+        border="1"
+        cellSpacing="0"
+        cellPadding="2"
+        className="Steps-RecordsList"
+      >
+        <thead>
+          <tr>
+            <th>Дата (ДД.ММ.ГГ)</th>
+            <th>Пройдено (км)</th>
+            <th>Действия</th>
+          </tr>
+        </thead>
+        <tbody>
+          <ItemList />
+        </tbody>
+      </table>
+    </>
   );
 }
 
-function Item(props) {
-  const [item, setItem] = useState({
-    id: '',
-    date: true,
-    steps: null,
-  });
-  const item = (
-
-  );
-  return <>{item}</>;
+class Item extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {};
+  }
+  render() {
+    return (
+      <>
+        <tr>
+          <td>{this.props.date}</td>
+          <td>{this.props.steps}</td>
+          <td></td>
+        </tr>
+      </>
+    );
+  }
 }
-function ItemList() {
 
-  return <>{}</>;
+class ItemList extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      date: this.props.date,
+      steps: this.props.steps,
+    };
+  }
+  render() {
+    return (
+      <>
+        <Item date={this.state.date} steps={this.state.steps} />
+      </>
+    );
+  }
 }
 
 class Steps extends React.Component {
@@ -73,23 +112,6 @@ class Steps extends React.Component {
     return (
       <>
         <FormInput />
-        <table
-          border="1"
-          cellSpacing="0"
-          cellPadding="2"
-          className="Steps-RecordsList"
-        >
-          <thead>
-            <tr>
-              <th>Дата (ДД.ММ.ГГ)</th>
-              <th>Пройдено (км)</th>
-              <th>Действия</th>
-            </tr>
-          </thead>
-          <tbody>
-            <ItemList />
-          </tbody>
-        </table>
       </>
     );
   }
