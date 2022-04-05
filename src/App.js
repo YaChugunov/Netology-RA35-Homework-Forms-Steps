@@ -12,39 +12,63 @@ function formatDate(date) {
 
   return [year, month, day].join('-');
 }
+
+
+function TableRow(props) {
+
+  return (
+    <>
+      <tr key={props.id}>
+        <td>{props.date}</td>
+        <td>{props.steps}</td>
+        <td></td>
+      </tr>
+    </>
+  );
+}
 //
 // --- --- --- --- ---
 //
 class FormInput extends React.Component {
   constructor(props) {
     super(props);
-    this.form = {
-      inputDate: formatDate(new Date()),
-      inputSteps: 0,
-    };
-    this.records = {
-      row: [
+    this.state = {
+      records: [
         {
           id: null,
           recordDate: null,
           recordSteps: null,
         },
       ],
+      inputDate: null,
+      inputSteps: null,
     };
+
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleFormSubmit = this.handleFormSubmit.bind(this);
   }
 
   handleFormSubmit = (e) => {
     e.preventDefault();
-    console.log(this.form.inputDate, this.form.inputSteps);
+    console.log(this.state.inputDate, this.state.inputSteps);
     // this.setState((prevState) => ({
     //   records: [
     //     ...prevState.records,
-    //     [this.form.inputDate, this.form.inputSteps],
+    //     [this.state.inputDate, this.state.inputSteps],
     //   ],
     // }));
     // console.log(this.row);
+
+    const data = [
+      { id: 1, date: this.state.inputDate, steps: this.state.inputSteps },
+    ];
+    const listItems = data.map((d) => (
+      <tr key={d.id}>
+        <td>{d.date}</td>
+        <td>{d.steps}</td>
+        <td></td>
+      </tr>
+    ));
   };
 
   handleInputChange = (e) => {
@@ -53,7 +77,7 @@ class FormInput extends React.Component {
     const name = target.name;
     const value = target.type === 'checkbox' ? target.checked : target.value;
 
-    console.log(name, value);
+    // console.log(name, value);
 
     this.setState({
       [name]: value,
@@ -61,15 +85,6 @@ class FormInput extends React.Component {
   };
 
   render() {
-    const data = [{ name: 'test1' }, { name: 'test2' }];
-    const listItems = data.map((d) => (
-      <tr key={d.name}>
-        <td>{d.name}</td>
-        <td></td>
-        <td></td>
-      </tr>
-    ));
-
     return (
       <>
         <form action="" onSubmit={this.handleFormSubmit}>
@@ -79,7 +94,7 @@ class FormInput extends React.Component {
               <input
                 name="inputDate"
                 type="date"
-                value={this.form.inputDate}
+                value={this.state.inputDate}
                 onChange={this.handleInputChange}
               />
             </div>
@@ -88,7 +103,7 @@ class FormInput extends React.Component {
               <input
                 name="inputSteps"
                 type="number"
-                value={this.form.inputSteps}
+                value={this.state.inputSteps}
                 onChange={this.handleInputChange}
               />
             </div>
@@ -110,7 +125,8 @@ class FormInput extends React.Component {
               <th>Действия</th>
             </tr>
           </thead>
-          <tbody>{listItems}</tbody>
+          <tbody><Item id={} date={this.props.date} steps={this.props.steps} />
+</tbody>
         </table>
       </>
     );
@@ -142,7 +158,7 @@ class ItemList extends React.Component {
   render() {
     return (
       <>
-        <Item date={this.props.date} steps={this.props.steps} />
+        <TableRow date={this.props.date} steps={this.props.steps} />
       </>
     );
   }
