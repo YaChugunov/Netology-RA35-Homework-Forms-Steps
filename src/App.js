@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 import './style.css';
 
 // Функция форматирования даты в YYYY-MM-DD
@@ -11,10 +12,20 @@ function formatDate(date) {
   if (month.length < 2) month = '0' + month;
   if (day.length < 2) day = '0' + day;
 
-  return [year, month, day].join('-');
+  return [day, month, month].join('-');
 }
 
 function Form(props) {
+  const { form, onSubmit, onChange } = props;
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    onChange(name, value);
+  };
+  const handleFormSubmit = (e) => {
+    e.preventDefault();
+    onSubmit();
+  };
+
   return (
     <>
       <form action="" onSubmit={handleFormSubmit}>
@@ -24,7 +35,7 @@ function Form(props) {
             <input
               name="inputDate"
               type="date"
-              value={}
+              value={form.inputDate}
               onChange={handleInputChange}
             />
           </div>
@@ -33,7 +44,7 @@ function Form(props) {
             <input
               name="inputSteps"
               type="number"
-              value={}
+              value={form.inputSteps}
               onChange={handleInputChange}
             />
           </div>
@@ -49,15 +60,40 @@ function Form(props) {
 function Records(props) {
   const [records, setRecords] = useState([]);
   const [edit, setEdit] = useState();
-  const [form, setForm] = useState({ date: '', steps: '' });
+  const [form, setForm] = useState({ inputDate: '', inputSteps: '' });
 
-  return <></>;
+  const handleChange = (name, value) => {
+    setForm((prevForm) => ({ ...prevForm, [name]: value }));
+    console.log(value);
+  };
+
+  const handleSubmit = () => {
+    const { steps } = form;
+    const tmpDate = formatDate(form.inputDate);
+    // if (!tmpDate.isValid()) return;
+    // const formdate = tmpDate.toDate();
+    console.log(tmpDate);
+
+    setForm({ inputDate: '', inputSteps: '' });
+    setEdit(null);
+  };
+
+  return (
+    <>
+      <Form form={form} onChange={handleChange} onSubmit={handleSubmit} />
+    </>
+  );
 }
+
+Form.propTypes = {
+  form: PropTypes.object.isRequired,
+  onSubmit: PropTypes.func.isRequired,
+  onChange: PropTypes.func.isRequired,
+};
 
 export default function App() {
   return (
     <div>
-      <Form />
       <Records />
     </div>
   );

@@ -15,10 +15,10 @@ input {
   height: 30px;
   font-size: 14px;
 }
-input[type='date'][name='date'] {
+input[type='date'][name='inputDate'] {
   height: 32px;
 }
-input[type='number'][name='steps'] {
+input[type='number'][name='inputSteps'] {
   width: 100px;
   text-align: center;
 }
