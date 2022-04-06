@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import {nanoid} from 'nanoid';
+import moment from 'moment';
 import './style.css';
 
 // Функция форматирования даты в YYYY-MM-DD
@@ -75,11 +76,11 @@ export default class Record {
   }
 }
 function SingleRecord(props) {
-  const { recordID, recordDate, recordSteps } = props.record;
-
+  const { recordDate, recordSteps } = props.record;
+  console.dir(props.record);
   return (
     <>
-      <tr key={recordID}>
+      <tr key={}>
         <td>{recordDate}</td>
         <td>{recordSteps}</td>
         <td></td>
@@ -93,12 +94,13 @@ function SingleRecord(props) {
 function AllRecords(props) {
   const { records } = props;
 
-  const handleRemove = (id) => props.onRemove(id);
-
-  const sortedRecords = records.sort((a, b) => {
-    if (Date.parse(a.date) < Date.parse(b.date)) return 1;
-    return -1;
-  });
+  const handleRemove = (id) => records.onRemove(id);
+  
+  const sortedRecords = records;
+  // const sortedRecords = records.sort((a, b) => {
+  //   if (Date.parse(a.date) < Date.parse(b.date)) return 1;
+  //   return -1;
+  // });
 
   return (
     <>
@@ -116,7 +118,7 @@ function AllRecords(props) {
           </tr>
         </thead>
         <tbody>
-          {sortedRecords.map((o) => (
+          {records.map((o) => (
             <SingleRecord
               record={o}
               onRemove={() => handleRemove(o.id)}
@@ -128,7 +130,10 @@ function AllRecords(props) {
     </>
   );
 }
-//
+AllRecords.propTypes = {
+  records: PropTypes.array.isRequired,
+  onRemove: PropTypes.func.isRequired,
+};//
 // --- --- --- --- --- --- --- --- --- ---
 //
 function MainComponent(props) {
@@ -141,10 +146,11 @@ function MainComponent(props) {
   };
 
   const handleSubmit = () => {
-    const { steps } = form.inputSteps;
-    const { date } = formatDate(form.inputDate);
-    // if (!date.isValid()) return;
-    // const formdate = date.toDate();
+    const steps = form.inputSteps;
+    // const formattedDate = formatDate(form.inputDate);
+    const momentDate = moment(form.inputDate, 'DD.MM.YY');
+    if (!momentDate.isValid()) return;
+    const date = momentDate.toDate();
     console.log(date, steps);
 
     if (records.find((o) => o.date.valueOf() === date.valueOf())) {
