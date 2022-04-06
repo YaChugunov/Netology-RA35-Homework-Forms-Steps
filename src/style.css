@@ -38,13 +38,13 @@ button {
   margin: 0 2px;
 }
 
-table.Steps-RecordsList {
+table {
   width: 100%;
 }
-table.Steps-RecordsList tr th {
+table th {
   height: 32px;
 }
-table.Steps-RecordsList tr td {
+table td {
   height: 18px;
   text-align: center;
 }
