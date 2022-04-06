@@ -137,28 +137,28 @@ function MainComponent(props) {
 
   const handleChange = (name, value) => {
     setForm((prevForm) => ({ ...prevForm, [name]: value }));
-    console.log('>> ' + value);
+    // console.log('>> ' + value);
   };
 
   const handleSubmit = () => {
-    const { steps } = form;
-    const tmpDate = formatDate(form.inputDate);
-    // if (!tmpDate.isValid()) return;
-    // const formdate = tmpDate.toDate();
-    console.log(tmpDate);
+    const { steps } = form.inputSteps;
+    const { date } = formatDate(form.inputDate);
+    // if (!date.isValid()) return;
+    // const formdate = date.toDate();
+    console.log(date, steps);
 
-    if (records.find((o) => o.tmpDate.valueOf() === tmpDate.valueOf())) {
+    if (records.find((o) => o.date.valueOf() === date.valueOf())) {
       setRecords((prevSteps) =>
         prevSteps.map((o) => {
-          if (o.tmpDate.valueOf() === tmpDate.valueOf())
-            return new Record(tmpDate, Number(steps) + o.steps);
+          if (o.date.valueOf() === date.valueOf())
+            return new Record(date, Number(steps) + o.steps);
           return o;
         })
       );
     } else {
       setRecords((prevSteps) => [
         ...prevSteps,
-        new Record(tmpDate, Number(steps)),
+        new Record(date, Number(steps)),
       ]);
     }
 
