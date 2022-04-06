@@ -80,9 +80,9 @@ function SingleRecord(props) {
   console.dir('props.record: '+ props.record);
   return (
     <>
-      <tr key={}>
+      <tr>
         <td>{date}</td>
-        <td>{steps}</td>
+        <td>{steps.toFixed(1)}</td>
         <td></td>
       </tr>
     </>
@@ -146,7 +146,7 @@ function MainComponent(props) {
   };
 
   const handleSubmit = () => {
-    const { inputData } = form;
+    const { steps } = form;
     // const formattedDate = formatDate(form.inputDate);
     const momentDate = moment(form.inputDate, 'YYYY-MM-DD');
     console.log(momentDate);
@@ -158,14 +158,14 @@ function MainComponent(props) {
       setRecords((prevRecords) =>
       prevRecords.map((o) => {
           if (o.date.valueOf() === date.valueOf())
-            return new Record(date, Number(inputData) + o.inputData);
+            return new Record(date, Number(steps) + o.steps);
           return o;
         })
       );
     } else {
       setRecords((prevRecords) => [
         ...prevRecords,
-        new Record(date, Number(inputData)),
+        new Record(date, Number(steps)),
       ]);
     }
 
