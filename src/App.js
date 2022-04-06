@@ -67,7 +67,7 @@ Form.propTypes = {
 // --- --- --- --- --- --- --- --- --- ---
 //
 function SingleRecord(props) {
-  const { recordID, recordDate, recordSteps } = props.item;
+  const { recordID, recordDate, recordSteps } = props.record;
 
   return (
     <>
@@ -83,11 +83,11 @@ function SingleRecord(props) {
 // --- --- --- --- --- --- --- --- --- ---
 //
 function AllRecords(props) {
-  const { steps } = props;
+  const { records } = props;
 
   const handleRemove = (id) => props.onRemove(id);
 
-  const sortedSteps = steps.sort((a, b) => {
+  const sortedRecords = records.sort((a, b) => {
     if (Date.parse(a.date) < Date.parse(b.date)) return 1;
     return -1;
   });
@@ -108,9 +108,9 @@ function AllRecords(props) {
           </tr>
         </thead>
         <tbody>
-          {sortedSteps.map((o) => (
+          {sortedRecords.map((o) => (
             <SingleRecord
-              item={o}
+              record={o}
               onRemove={() => handleRemove(o.id)}
               key={o.id}
             />
@@ -139,8 +139,8 @@ function MainComponent(props) {
     // const formdate = tmpDate.toDate();
     console.log(tmpDate);
 
-    if (steps.find((o) => o.date.valueOf() === date.valueOf())) {
-      setSteps((prevSteps) =>
+    if (records.find((o) => o.date.valueOf() === date.valueOf())) {
+      setRecords((prevSteps) =>
         prevSteps.map((o) => {
           if (o.date.valueOf() === date.valueOf())
             return new StepModel(date, Number(distance) + o.distance);
@@ -148,7 +148,7 @@ function MainComponent(props) {
         })
       );
     } else {
-      setSteps((prevSteps) => [
+      setRecords((prevSteps) => [
         ...prevSteps,
         new StepModel(date, Number(distance)),
       ]);
@@ -158,13 +158,13 @@ function MainComponent(props) {
   };
 
   const handleRemove = (id) => {
-    setSteps((prevSteps) => prevSteps.filter((o) => o.id !== id));
+    setRecords((prevSteps) => prevSteps.filter((o) => o.id !== id));
   };
 
   return (
     <>
       <Form form={form} onChange={handleChange} onSubmit={handleSubmit} />
-      <AllRecords steps={records} onRemove={handleRemove} />
+      <AllRecords records={records} onRemove={handleRemove} />
     </>
   );
 }
