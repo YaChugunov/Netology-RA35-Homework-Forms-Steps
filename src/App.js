@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
+import {nanoid} from 'nanoid';
 import './style.css';
 
 // Функция форматирования даты в YYYY-MM-DD
@@ -66,6 +67,13 @@ Form.propTypes = {
 //
 // --- --- --- --- --- --- --- --- --- ---
 //
+export default class Record {
+  constructor(date, steps) {
+    this.id = nanoid();
+    this.date = date;
+    this.steps = steps;
+  }
+}
 function SingleRecord(props) {
   const { recordID, recordDate, recordSteps } = props.record;
 
@@ -139,18 +147,18 @@ function MainComponent(props) {
     // const formdate = tmpDate.toDate();
     console.log(tmpDate);
 
-    if (records.find((o) => o.date.valueOf() === date.valueOf())) {
+    if (records.find((o) => o.tmpDate.valueOf() === tmpDate.valueOf())) {
       setRecords((prevSteps) =>
         prevSteps.map((o) => {
-          if (o.date.valueOf() === date.valueOf())
-            return new StepModel(date, Number(distance) + o.distance);
+          if (o.tmpDate.valueOf() === tmpDate.valueOf())
+            return new Record(tmpDate, Number(steps) + o.steps);
           return o;
         })
       );
     } else {
       setRecords((prevSteps) => [
         ...prevSteps,
-        new StepModel(date, Number(distance)),
+        new Record(tmpDate, Number(steps)),
       ]);
     }
 
