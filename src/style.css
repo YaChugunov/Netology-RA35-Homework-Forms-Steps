@@ -46,4 +46,5 @@ table.Steps-RecordsList tr th {
 }
 table.Steps-RecordsList tr td {
   height: 18px;
+  text-align: center;
 }

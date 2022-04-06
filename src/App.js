@@ -21,18 +21,18 @@ function formatDate(date) {
 //
 function Form(props) {
   const { form, onSubmit, onChange } = props;
-  const handleInputChange = (e) => {
+  const handleChange = (e) => {
     const { name, value } = e.target;
     onChange(name, value);
   };
-  const handleFormSubmit = (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
     onSubmit();
   };
 
   return (
     <>
-      <form action="" onSubmit={handleFormSubmit}>
+      <form action="" onSubmit={handleSubmit}>
         <div className="form">
           <div className="formDate">
             <label htmlFor="date">Дата (ДД.ММ.ГГ)</label>
@@ -40,7 +40,7 @@ function Form(props) {
               name="inputDate"
               type="date"
               value={form.inputDate}
-              onChange={handleInputChange}
+              onChange={handleChange}
             />
           </div>
           <div className="formSteps">
@@ -49,7 +49,7 @@ function Form(props) {
               name="inputSteps"
               type="number"
               value={form.inputSteps}
-              onChange={handleInputChange}
+              onChange={handleChange}
             />
           </div>
           <div>
@@ -77,18 +77,21 @@ export default class Record {
 }
 function SingleRecord(props) {
   const { date, steps } = props.record;
-  console.dir('props.record: '+ props.record);
+
   return (
     <>
       <tr>
         <td>{date}</td>
-        <td>{steps.toFixed(1)}</td>
-        <td></td>
+        <td>{steps}</td>
+        <td><span onClick={props.onRemove}>X</span></td>
       </tr>
     </>
   );
 }
-//
+SingleRecord.propTypes = {
+  record: PropTypes.instanceOf(Record).isRequired,
+  onRemove: PropTypes.func.isRequired,
+}//
 // --- --- --- --- --- --- --- --- --- ---
 //
 function AllRecords(props) {
@@ -149,10 +152,9 @@ function MainComponent(props) {
     // const { steps } = form;
     // const formattedDate = formatDate(form.inputDate);
     const momentDate = moment(form.inputDate, 'YYYY-MM-DD');
-    console.log(momentDate);
     if (!momentDate.isValid()) return;
     const date = momentDate.format('DD.MM.YYYY');
-    console.log(momentDate, date, form.inputSteps);
+    console.log(date, form.inputSteps);
 
     if (records.find((o) => o.date.valueOf() === date.valueOf())) {
       setRecords((prevRecords) =>
