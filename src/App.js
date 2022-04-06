@@ -86,7 +86,6 @@ function AllRecords(props) {
   const { steps } = props;
 
   const handleRemove = (id) => props.onRemove(id);
-  const handleEdit = (id) => props.onEdit(id);
 
   const sortedSteps = steps.sort((a, b) => {
     if (Date.parse(a.date) < Date.parse(b.date)) return 1;
@@ -112,7 +111,6 @@ function AllRecords(props) {
           {sortedSteps.map((o) => (
             <SingleRecord
               item={o}
-              onEdit={() => handleEdit(o.id)}
               onRemove={() => handleRemove(o.id)}
               key={o.id}
             />
@@ -127,7 +125,6 @@ function AllRecords(props) {
 //
 function MainComponent(props) {
   const [records, setRecords] = useState([]);
-  const [edit, setEdit] = useState();
   const [form, setForm] = useState({ inputDate: '', inputSteps: '' });
 
   const handleChange = (name, value) => {
@@ -142,8 +139,22 @@ function MainComponent(props) {
     // const formdate = tmpDate.toDate();
     console.log(tmpDate);
 
+    if (steps.find((o) => o.date.valueOf() === date.valueOf())) {
+      setSteps((prevSteps) =>
+        prevSteps.map((o) => {
+          if (o.date.valueOf() === date.valueOf())
+            return new StepModel(date, Number(distance) + o.distance);
+          return o;
+        })
+      );
+    } else {
+      setSteps((prevSteps) => [
+        ...prevSteps,
+        new StepModel(date, Number(distance)),
+      ]);
+    }
+
     setForm({ inputDate: '', inputSteps: '' });
-    setEdit(null);
   };
 
   const handleRemove = (id) => {
