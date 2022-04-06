@@ -76,13 +76,13 @@ export default class Record {
   }
 }
 function SingleRecord(props) {
-  const { recordDate, recordSteps } = props.record;
-  console.dir(props.record);
+  const { date, steps } = props.record;
+  console.dir('props.record: '+ props.record);
   return (
     <>
       <tr key={}>
-        <td>{recordDate}</td>
-        <td>{recordSteps}</td>
+        <td>{date}</td>
+        <td>{steps}</td>
         <td></td>
       </tr>
     </>
@@ -96,11 +96,10 @@ function AllRecords(props) {
 
   const handleRemove = (id) => records.onRemove(id);
   
-  const sortedRecords = records;
-  // const sortedRecords = records.sort((a, b) => {
-  //   if (Date.parse(a.date) < Date.parse(b.date)) return 1;
-  //   return -1;
-  // });
+  const sortedRecords = records.sort((a, b) => {
+    if (Date.parse(a.date) < Date.parse(b.date)) return 1;
+    return -1;
+  });
 
   return (
     <>
@@ -118,7 +117,7 @@ function AllRecords(props) {
           </tr>
         </thead>
         <tbody>
-          {records.map((o) => (
+          {sortedRecords.map((o) => (
             <SingleRecord
               record={o}
               onRemove={() => handleRemove(o.id)}
@@ -133,7 +132,8 @@ function AllRecords(props) {
 AllRecords.propTypes = {
   records: PropTypes.array.isRequired,
   onRemove: PropTypes.func.isRequired,
-};//
+};
+//
 // --- --- --- --- --- --- --- --- --- ---
 //
 function MainComponent(props) {
@@ -146,26 +146,26 @@ function MainComponent(props) {
   };
 
   const handleSubmit = () => {
-    const { steps } = form;
+    const { inputData } = form;
     // const formattedDate = formatDate(form.inputDate);
     const momentDate = moment(form.inputDate, 'YYYY-MM-DD');
     console.log(momentDate);
     if (!momentDate.isValid()) return;
     const date = momentDate.format('DD.MM.YYYY');
-    console.log(momentDate, date, steps);
+    console.log(momentDate, date, form.inputSteps);
 
-    if (steps.find((o) => o.date.valueOf() === date.valueOf())) {
-      setRecords((prevSteps) =>
-        prevSteps.map((o) => {
+    if (records.find((o) => o.date.valueOf() === date.valueOf())) {
+      setRecords((prevRecords) =>
+      prevRecords.map((o) => {
           if (o.date.valueOf() === date.valueOf())
-            return new Record(date, Number(steps) + o.steps);
+            return new Record(date, Number(inputData) + o.inputData);
           return o;
         })
       );
     } else {
-      setRecords((prevSteps) => [
-        ...prevSteps,
-        new Record(date, Number(steps)),
+      setRecords((prevRecords) => [
+        ...prevRecords,
+        new Record(date, Number(inputData)),
       ]);
     }
 
@@ -173,7 +173,7 @@ function MainComponent(props) {
   };
 
   const handleRemove = (id) => {
-    setRecords((prevSteps) => prevSteps.filter((o) => o.id !== id));
+    setRecords((prevRecords) => prevRecords.filter((o) => o.id !== id));
   };
 
   return (
