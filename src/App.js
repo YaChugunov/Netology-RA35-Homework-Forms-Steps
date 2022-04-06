@@ -154,10 +154,10 @@ function MainComponent(props) {
     const date = momentDate.format('DD.MM.YYYY');
     console.log(momentDate, date, form.inputSteps);
 
-    if (records.find((o) => o.date.valueOf() === form.inputDate.valueOf())) {
+    if (records.find((o) => o.date.valueOf() === date.valueOf())) {
       setRecords((prevRecords) =>
       prevRecords.map((o) => {
-          if (o.date.valueOf() === form.inputDate.valueOf())
+          if (o.date.valueOf() === date.valueOf())
             return new Record(date, Number(form.inputSteps) + o.steps);
           return o;
         })
