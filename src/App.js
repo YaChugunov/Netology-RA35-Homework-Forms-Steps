@@ -12,9 +12,11 @@ function formatDate(date) {
   if (month.length < 2) month = '0' + month;
   if (day.length < 2) day = '0' + day;
 
-  return [day, month, month].join('-');
+  return [day, month, year].join('.');
 }
-
+//
+// --- --- --- --- --- --- --- --- --- ---
+//
 function Form(props) {
   const { form, onSubmit, onChange } = props;
   const handleInputChange = (e) => {
@@ -56,15 +58,81 @@ function Form(props) {
     </>
   );
 }
+Form.propTypes = {
+  form: PropTypes.object.isRequired,
+  onSubmit: PropTypes.func.isRequired,
+  onChange: PropTypes.func.isRequired,
+};
+//
+// --- --- --- --- --- --- --- --- --- ---
+//
+function SingleRecord(props) {
+  const { recordID, recordDate, recordSteps } = props.item;
 
-function Records(props) {
+  return (
+    <>
+      <tr key={recordID}>
+        <td>{recordDate}</td>
+        <td>{recordSteps}</td>
+        <td></td>
+      </tr>
+    </>
+  );
+}
+//
+// --- --- --- --- --- --- --- --- --- ---
+//
+function AllRecords(props) {
+  const { steps } = props;
+
+  const handleRemove = (id) => props.onRemove(id);
+  const handleEdit = (id) => props.onEdit(id);
+
+  const sortedSteps = steps.sort((a, b) => {
+    if (Date.parse(a.date) < Date.parse(b.date)) return 1;
+    return -1;
+  });
+
+  return (
+    <>
+      <table
+        border="1"
+        cellSpacing="0"
+        cellPadding="2"
+        className="Steps-records"
+      >
+        <thead>
+          <tr>
+            <th>Дата (ДД.ММ.ГГ)</th>
+            <th>Пройдено (км)</th>
+            <th>Действия</th>
+          </tr>
+        </thead>
+        <tbody>
+          {sortedSteps.map((o) => (
+            <SingleRecord
+              item={o}
+              onEdit={() => handleEdit(o.id)}
+              onRemove={() => handleRemove(o.id)}
+              key={o.id}
+            />
+          ))}
+        </tbody>
+      </table>
+    </>
+  );
+}
+//
+// --- --- --- --- --- --- --- --- --- ---
+//
+function MainComponent(props) {
   const [records, setRecords] = useState([]);
   const [edit, setEdit] = useState();
   const [form, setForm] = useState({ inputDate: '', inputSteps: '' });
 
   const handleChange = (name, value) => {
     setForm((prevForm) => ({ ...prevForm, [name]: value }));
-    console.log(value);
+    console.log('>> ' + value);
   };
 
   const handleSubmit = () => {
@@ -78,23 +146,24 @@ function Records(props) {
     setEdit(null);
   };
 
+  const handleRemove = (id) => {
+    setSteps((prevSteps) => prevSteps.filter((o) => o.id !== id));
+  };
+
   return (
     <>
       <Form form={form} onChange={handleChange} onSubmit={handleSubmit} />
+      <AllRecords steps={records} onRemove={handleRemove} />
     </>
   );
 }
-
-Form.propTypes = {
-  form: PropTypes.object.isRequired,
-  onSubmit: PropTypes.func.isRequired,
-  onChange: PropTypes.func.isRequired,
-};
-
+//
+// --- --- --- --- --- --- --- --- --- ---
+//
 export default function App() {
   return (
     <div>
-      <Records />
+      <MainComponent />
     </div>
   );
 }
