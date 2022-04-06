@@ -3,6 +3,7 @@ import moment from 'moment';
 
 import Form from '../Form/Form';
 import AllRecords from '../AllRecords/AllRecords';
+import RecordItem from '../RecordItem/RecordItem';
 
 export default function Main(props) {
   const [records, setRecords] = useState([]);
@@ -25,14 +26,14 @@ export default function Main(props) {
       setRecords((prevRecords) =>
         prevRecords.map((o) => {
           if (o.date.valueOf() === date.valueOf())
-            return new Record(date, Number(form.inputSteps) + o.steps);
+            return new RecordItem(date, Number(form.inputSteps) + o.steps);
           return o;
         })
       );
     } else {
       setRecords((prevRecords) => [
         ...prevRecords,
-        new Record(date, Number(form.inputSteps)),
+        new RecordItem(date, Number(form.inputSteps)),
       ]);
     }
 

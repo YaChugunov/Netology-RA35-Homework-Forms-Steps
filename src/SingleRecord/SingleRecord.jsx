@@ -1,14 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-// Класс элемента таблицы записей
-export default class Record {
-  constructor(date, steps) {
-    this.id = nanoid();
-    this.date = date;
-    this.steps = steps;
-  }
-}
+import RecordItem from '../RecordItem/RecordItem';
 
 function SingleRecord(props) {
   const { date, steps } = props.record;
@@ -26,6 +19,6 @@ function SingleRecord(props) {
   );
 }
 SingleRecord.propTypes = {
-  record: PropTypes.instanceOf(Record).isRequired,
+  record: PropTypes.instanceOf(RecordItem).isRequired,
   onRemove: PropTypes.func.isRequired,
 };
