@@ -146,7 +146,7 @@ function MainComponent(props) {
   };
 
   const handleSubmit = () => {
-    const { steps } = form;
+    // const { steps } = form;
     // const formattedDate = formatDate(form.inputDate);
     const momentDate = moment(form.inputDate, 'YYYY-MM-DD');
     console.log(momentDate);
@@ -154,18 +154,18 @@ function MainComponent(props) {
     const date = momentDate.format('DD.MM.YYYY');
     console.log(momentDate, date, form.inputSteps);
 
-    if (records.find((o) => o.date.valueOf() === date.valueOf())) {
+    if (records.find((o) => o.date.valueOf() === form.inputDate.valueOf())) {
       setRecords((prevRecords) =>
       prevRecords.map((o) => {
-          if (o.date.valueOf() === date.valueOf())
-            return new Record(date, Number(steps) + o.steps);
+          if (o.date.valueOf() === form.inputDate.valueOf())
+            return new Record(date, Number(form.inputSteps) + o.steps);
           return o;
         })
       );
     } else {
       setRecords((prevRecords) => [
         ...prevRecords,
-        new Record(date, Number(steps)),
+        new Record(date, Number(form.inputSteps)),
       ]);
     }
 
