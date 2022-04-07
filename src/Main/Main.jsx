@@ -28,7 +28,7 @@ export default function Main(props) {
   };
 
   const handleSubmit = () => {
-    // const { steps } = form;
+    const { steps } = form;
     // const formattedDate = formatDate(form.inputDate);
     const momentDate = moment(form.inputDate, 'YYYY-MM-DD');
     if (!momentDate.isValid()) return;
@@ -60,7 +60,7 @@ export default function Main(props) {
   return (
     <>
       <Form form={form} onChange={handleChange} onSubmit={handleSubmit} />
-      <AllRecords records={records} onRemove={handleRemove} />
+      <AllRecords isChanged={false} records={records} onRemove={handleRemove} />
     </>
   );
 }

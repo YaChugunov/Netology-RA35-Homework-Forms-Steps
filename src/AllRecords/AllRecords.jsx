@@ -56,12 +56,14 @@ export default function AllRecords(props) {
     props.onRemove(id);
   };
 
+  console.log(records);
   const sortedRecords = records.sort((a, b) => {
     console.log(Date.parse(a.date), Date.parse(b.date));
-    console.log(records);
     if (Date.parse(a.date) < Date.parse(b.date)) return 1;
     return -1;
   });
+  // const sortedRecords = records.sort(compare(Date.parse(props.date), -1));
+  // const sortedRecords = records.sort((a, b) => (a < b && 1) || (a > b && -1) || 0)
 
   return (
     <>
