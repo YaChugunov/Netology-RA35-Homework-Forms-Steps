@@ -40,7 +40,7 @@ export default function Main(props) {
         prevRecords.map((obj) => {
           if (obj.date.valueOf() === date.valueOf())
             return new RecordItem(date, Number(form.inputSteps) + obj.steps);
-          return o;
+          return obj;
         })
       );
     } else {
