@@ -37,6 +37,9 @@ button {
 .formSteps {
   margin: 0 2px;
 }
+span.remove {
+  cursor: pointer;
+}
 
 table {
   width: 100%;

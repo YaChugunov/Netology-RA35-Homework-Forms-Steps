@@ -6,7 +6,9 @@ import SingleRecord from '../SingleRecord/SingleRecord';
 export default function AllRecords(props) {
   const { records } = props;
 
-  const handleRemove = (id) => records.onRemove(id);
+  const handleRemove = (id) => {
+    records.onRemove(id);
+  };
 
   const sortedRecords = records.sort((a, b) => {
     if (Date.parse(a.date) < Date.parse(b.date)) return 1;
@@ -29,11 +31,11 @@ export default function AllRecords(props) {
           </tr>
         </thead>
         <tbody>
-          {sortedRecords.map((o) => (
+          {sortedRecords.map((obj) => (
             <SingleRecord
-              record={o}
-              onRemove={() => handleRemove(o.id)}
-              key={o.id}
+              record={obj}
+              onRemove={() => handleRemove(obj.id)}
+              key={obj.id}
             />
           ))}
         </tbody>

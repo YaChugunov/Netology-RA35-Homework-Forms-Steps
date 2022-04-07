@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import RecordItem from '../RecordItem/RecordItem';
 
-function SingleRecord(props) {
+export default function SingleRecord(props) {
   const { date, steps } = props.record;
 
   return (
@@ -12,7 +12,9 @@ function SingleRecord(props) {
         <td>{date}</td>
         <td>{steps}</td>
         <td>
-          <span onClick={props.onRemove}>X</span>
+          <span className="remove" onClick={props.onRemove}>
+            X
+          </span>
         </td>
       </tr>
     </>
