@@ -18,7 +18,7 @@ input {
 input[type='date'][name='inputDate'] {
   height: 32px;
 }
-input[type='number'][name='inputSteps'] {
+input[type='number'][name='inputValue'] {
   width: 100px;
   text-align: center;
 }
@@ -34,7 +34,7 @@ button {
 .formDate {
   margin: 0 2px;
 }
-.formSteps {
+.formValue {
   margin: 0 2px;
 }
 span.remove {

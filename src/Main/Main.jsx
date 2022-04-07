@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import moment from 'moment';
 
 import Form from '../Form/Form';
-import AllRecords from '../AllRecords/AllRecords';
-import RecordItem from '../RecordItem/RecordItem';
+import ItemList from '../ItemList/ItemList';
+import ItemClass from '../ItemClass/ItemClass';
 
 // Функция форматирования даты в YYYY-MM-DD
 function formatDate(date) {
@@ -18,9 +18,10 @@ function formatDate(date) {
   return [day, month, year].join('.');
 }
 
+// Онсовной компонент
 export default function Main(props) {
   const [records, setRecords] = useState([]);
-  const [form, setForm] = useState({ inputDate: '', inputSteps: '' });
+  const [form, setForm] = useState({ inputDate: '', inputValue: '' });
 
   const handleChange = (name, value) => {
     setForm((prevForm) => ({ ...prevForm, [name]: value }));
@@ -28,29 +29,29 @@ export default function Main(props) {
   };
 
   const handleSubmit = () => {
-    const { steps } = form;
     // const formattedDate = formatDate(form.inputDate);
     const momentDate = moment(form.inputDate, 'YYYY-MM-DD');
     if (!momentDate.isValid()) return;
-    const date = momentDate.format('DD.MM.YYYY');
-    console.log(date, form.inputSteps);
+    // const date = momentDate.format('DD.MM.YYYY');
+    const date = momentDate.format('YYYY-MM-DD');
+    console.log(date, form.inputValue);
 
     if (records.find((obj) => obj.date.valueOf() === date.valueOf())) {
       setRecords((prevRecords) =>
         prevRecords.map((obj) => {
           if (obj.date.valueOf() === date.valueOf())
-            return new RecordItem(date, Number(form.inputSteps) + obj.steps);
+            return new ItemClass(date, Number(form.inputValue) + obj.value);
           return obj;
         })
       );
     } else {
       setRecords((prevRecords) => [
         ...prevRecords,
-        new RecordItem(date, Number(form.inputSteps)),
+        new ItemClass(date, Number(form.inputValue)),
       ]);
     }
 
-    setForm({ inputDate: '', inputSteps: '' });
+    setForm({ inputDate: '', inputValue: '' });
   };
 
   const handleRemove = (id) => {
@@ -60,7 +61,7 @@ export default function Main(props) {
   return (
     <>
       <Form form={form} onChange={handleChange} onSubmit={handleSubmit} />
-      <AllRecords isChanged={false} records={records} onRemove={handleRemove} />
+      <ItemList isChanged={false} records={records} onRemove={handleRemove} />
     </>
   );
 }

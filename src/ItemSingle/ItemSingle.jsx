@@ -1,16 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import moment from 'moment';
 
-import RecordItem from '../RecordItem/RecordItem';
+import ItemClass from '../ItemClass/ItemClass';
 
-export default function SingleRecord(props) {
-  const { date, steps } = props.record;
+export default function ItemSingle(props) {
+  const { date, value } = props.record;
 
   return (
     <>
       <tr>
-        <td>{date}</td>
-        <td>{steps}</td>
+        <td>{moment(date).format('DD.MM.YYYY')}</td>
+        <td>{value}</td>
         <td>
           <span className="remove" onClick={props.onRemove}>
             X
@@ -21,6 +22,6 @@ export default function SingleRecord(props) {
   );
 }
 SingleRecord.propTypes = {
-  record: PropTypes.instanceOf(RecordItem).isRequired,
+  record: PropTypes.instanceOf(ItemClass).isRequired,
   onRemove: PropTypes.func.isRequired,
 };

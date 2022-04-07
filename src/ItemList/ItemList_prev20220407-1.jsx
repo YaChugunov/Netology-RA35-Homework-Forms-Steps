@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
-import SingleRecord from '../SingleRecord/SingleRecord';
+import ItemSingle from '../ItemSingle/ItemSingle';
 
 // Универсальная функция сортировки элементов массива
 // https://habr.com/ru/post/279867/
@@ -80,7 +80,7 @@ export default function AllRecords(props) {
         </thead>
         <tbody>
           {sortedRecords.map((obj) => (
-            <SingleRecord
+            <ItemSingle
               record={obj}
               onRemove={() => handleRemove(obj.id)}
               id={obj.id}

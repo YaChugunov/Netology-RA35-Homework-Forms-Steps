@@ -17,7 +17,7 @@ export default function Form(props) {
       <form action="" onSubmit={handleSubmit}>
         <div className="form">
           <div className="formDate">
-            <label htmlFor="date">Дата (ДД.ММ.ГГ)</label>
+            <label htmlFor="inputDate">Дата (ДД.ММ.ГГ)</label>
             <input
               name="inputDate"
               type="date"
@@ -25,12 +25,12 @@ export default function Form(props) {
               onChange={handleChange}
             />
           </div>
-          <div className="formSteps">
-            <label htmlFor="steps">Пройдено (км)</label>
+          <div className="formValue">
+            <label htmlFor="inputValue">Пройдено (км)</label>
             <input
-              name="inputSteps"
+              name="inputValue"
               type="number"
-              value={form.inputSteps}
+              value={form.inputValue}
               onChange={handleChange}
             />
           </div>
