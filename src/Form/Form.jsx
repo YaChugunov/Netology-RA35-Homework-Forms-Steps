@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import PropTypes from 'prop-types';
 
 export default function Form(props) {
   const { form, onSubmit, onChange } = props;
@@ -9,7 +8,9 @@ export default function Form(props) {
   };
   const handleSubmit = (e) => {
     e.preventDefault();
-    onSubmit();
+    form.inputValue >= 0
+      ? onSubmit()
+      : alert('Количество пройденных километров не может быть отрицательным!');
   };
 
   return (
@@ -32,6 +33,7 @@ export default function Form(props) {
               type="number"
               value={form.inputValue}
               onChange={handleChange}
+              step="0.1"
             />
           </div>
           <div>
@@ -42,8 +44,3 @@ export default function Form(props) {
     </>
   );
 }
-Form.propTypes = {
-  form: PropTypes.object.isRequired,
-  onSubmit: PropTypes.func.isRequired,
-  onChange: PropTypes.func.isRequired,
-};

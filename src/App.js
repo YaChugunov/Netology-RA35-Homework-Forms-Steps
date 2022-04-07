@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import './style.css';
+import './Main.css';
 
 import Main from './Main/Main';
 

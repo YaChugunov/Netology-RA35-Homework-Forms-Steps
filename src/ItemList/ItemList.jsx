@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import PropTypes from 'prop-types';
 
 import ItemSingle from '../ItemSingle/ItemSingle';
 
@@ -94,7 +93,3 @@ export default function AllRecords(props) {
     </>
   );
 }
-AllRecords.propTypes = {
-  records: PropTypes.array.isRequired,
-  onRemove: PropTypes.func.isRequired,
-};

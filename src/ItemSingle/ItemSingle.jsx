@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import moment from 'moment';
 
 import ItemClass from '../ItemClass/ItemClass';
@@ -11,7 +10,7 @@ export default function ItemSingle(props) {
     <>
       <tr>
         <td>{moment(date).format('DD.MM.YYYY')}</td>
-        <td>{value}</td>
+        <td>{value.toFixed(1)}</td>
         <td>
           <span className="remove" onClick={props.onRemove}>
             X
@@ -21,7 +20,3 @@ export default function ItemSingle(props) {
     </>
   );
 }
-SingleRecord.propTypes = {
-  record: PropTypes.instanceOf(ItemClass).isRequired,
-  onRemove: PropTypes.func.isRequired,
-};
